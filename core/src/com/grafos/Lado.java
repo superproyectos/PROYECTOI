@@ -21,7 +21,8 @@ public class Lado
         shape=new ShapeRenderer();
         batch=new SpriteBatch();
         font = new BitmapFont();
-        font.setColor(Color.GRAY);
+        font.setColor(133/255f, 193/255f, 233/255f,1);
+        shape.setColor(44/255f, 62/255f, 80/255f,1);
     }
     public void dibujaLado()
     {
@@ -44,8 +45,5 @@ public class Lado
             font.draw(batch," "+peso,A.getX()+A.getWidth()/2,A.getY()-A.getHeight()/2);
             batch.end();
         }
-
-
-
     }
 }

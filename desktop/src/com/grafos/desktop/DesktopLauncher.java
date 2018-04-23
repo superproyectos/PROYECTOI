@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title="Grafos";
 		config.width=600;
 		config.height=600;
+		config.resizable=false;
 		new LwjglApplication(new Grafos(), config);
 	}
 }

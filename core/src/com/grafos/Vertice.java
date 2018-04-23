@@ -1,9 +1,7 @@
 package com.grafos;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -23,8 +21,8 @@ public class Vertice extends Actor
         this.setY(y);
         this.numero=numero;
         font = new BitmapFont();
-        font.setColor(Color.TEAL);
-        shape.setColor(Color.CYAN);
+        font.setColor(133/255f, 193/255f, 233/255f,1);
+        shape.setColor(52/255f, 152/255f, 219/255f,1);
 
         addListener(new DragListener()
         {
@@ -52,5 +50,15 @@ public class Vertice extends Actor
     public void act (float delta)
     {
         super.act(delta);
+        float dx=getX(),dy=getY();
+        if(dx<0)
+            setX(dx+0.5f);
+        if(dx>550)
+            setX(dx-0.5f);
+        if(dy<0)
+            setY(dy+0.5f);
+        if(dy>470)
+            setY(dy-0.5f);
+
     }
 }
