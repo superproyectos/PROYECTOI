@@ -3,9 +3,7 @@ package com.grafos;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.grafos.menu.Menu;
 
 import java.util.Random;
@@ -13,16 +11,13 @@ import java.util.Random;
 
 
 public class Grafos extends ApplicationAdapter {
-	Stage s;
 	Array<Lado> a;
 	private Menu menu;
 	@Override
 	public void create ()
 	{
-		s=new Stage(new ScreenViewport());
-
 		Gdx.gl.glLineWidth(3);
-		Gdx.input.setInputProcessor(s);
+		Gdx.input.setInputProcessor(Config.STAGE);
 		a=new Array<Lado>();
 		menu=new Menu();
 		Array<Vertice> b=new Array<Vertice>();
@@ -33,7 +28,7 @@ public class Grafos extends ApplicationAdapter {
 		{
 			Vertice c=new Vertice(x+r*(float)Math.cos(ang*i)-25,y+r*(float)Math.sin(ang*i)-25,i);
 			b.add(c);
-			s.addActor(c);
+			Config.STAGE.addActor(c);
 		}
 		for(int i=0;i<5;i++)
 		{
@@ -50,11 +45,12 @@ public class Grafos extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClearColor(28/255f, 40/255f, 51/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		s.act(Gdx.graphics.getDeltaTime());
+		menu.dibujar();
+		Config.STAGE.act(Gdx.graphics.getDeltaTime());
 		for(Lado w:a)
 			w.dibujaLado();
-		s.draw();
-		menu.dibujar();
+		Config.STAGE.draw();
+
 	}
 
 	@Override

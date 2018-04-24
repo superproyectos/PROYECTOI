@@ -20,15 +20,11 @@ public class BarraMenu extends Rectangle
     }
     public void dibujar()
     {
-        //final int curva=25;
         shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(color);
-        shape.rect(x,y,width,height);
-        shape.setColor(color.r-0.02f,color.g-0.02f,color.b-0.02f,1);
-        shape.rect(x,y-30,width,30);
-        /*shape.rect(x+curva,y-curva,width-2*curva,height);
-        shape.circle(x+curva,y,curva);
-        shape.circle(width-curva,y,curva);*/
+            shape.setColor(color);
+            shape.rect(x,y,width,height);
+            shape.setColor(color.r-0.02f,color.g-0.02f,color.b-0.02f,1);
+            shape.rect(x,y-30,width,30);
         shape.end();
     }
 

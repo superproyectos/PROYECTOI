@@ -21,8 +21,8 @@ public class Vertice extends Actor
         this.setY(y);
         this.numero=numero;
         font = new BitmapFont();
-        font.setColor(133/255f, 193/255f, 233/255f,1);
-        shape.setColor(52/255f, 152/255f, 219/255f,1);
+        font.setColor(Config.color(133, 193, 233,1));
+        shape.setColor(Config.color(52, 152, 219,1));
 
         addListener(new DragListener()
         {
