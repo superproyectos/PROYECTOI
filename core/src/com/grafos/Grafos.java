@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.Array;
 import com.grafos.menu.Menu;
-
 import java.util.Random;
 
 
@@ -42,7 +41,8 @@ public class Grafos extends ApplicationAdapter {
 		}
 	}
 	@Override
-	public void render () {
+	public void render ()
+	{
 		Gdx.gl.glClearColor(28/255f, 40/255f, 51/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		menu.dibujar();
@@ -54,8 +54,9 @@ public class Grafos extends ApplicationAdapter {
 	}
 
 	@Override
-	public void dispose () {
-
+	public void dispose ()
+	{
+		Config.STAGE.dispose();
 	}
 
 }

@@ -6,6 +6,7 @@ public class SelectorDeArchivo
 {
     public SelectorDeArchivo()
     {
+        //El hilo permite que podamos mover la ventana por la pantalla.
         new Thread(new Runnable()
         {
             @Override
@@ -27,6 +28,6 @@ public class SelectorDeArchivo
     }
     public void leerArchivo()
     {
-
+        System.out.print("Enreo");
     }
 }

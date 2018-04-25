@@ -61,4 +61,8 @@ public class Vertice extends Actor
             setY(dy-0.5f);
 
     }
+    public void dispose()
+    {
+        shape.dispose();
+    }
 }
