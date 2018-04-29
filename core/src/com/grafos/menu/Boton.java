@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.grafos.Config;
+import com.grafos.Grafos;
 
 public class Boton
 {
@@ -33,9 +34,11 @@ public class Boton
                 switch (getTipo())
                 {
                     case 0:
+                        Grafos.grafo=Grafos.grafo.Prim();
                         Etiquetado.setTexto("Algortimo de Prim");
                         break;
                     case 1:
+
                         Etiquetado.setTexto("Algoritmo de Dijkstra");
                         break;
                     case 2:

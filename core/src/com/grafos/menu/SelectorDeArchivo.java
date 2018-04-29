@@ -1,9 +1,17 @@
 package com.grafos.menu;
 
+import com.grafos.Grafo;
+import com.grafos.Grafos;
+
 import javax.swing.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class SelectorDeArchivo
 {
+    private static String direccion=null;
     public SelectorDeArchivo()
     {
         //El hilo permite que podamos mover la ventana por la pantalla.
@@ -21,13 +29,79 @@ public class SelectorDeArchivo
                 f.dispose();
                 if (res == JFileChooser.APPROVE_OPTION)
                 {
-                    leerArchivo();
+                    direccion=chooser.getSelectedFile().toString();
+                    Thread.currentThread().stop();
+
                 }
+
             }
         }).start();
+
+        /*System.out.print(direccion);
+        if (direccion!=null)*/
+
     }
-    public void leerArchivo()
+    public static void compruebaArchivo()
     {
-        System.out.print("Enreo");
+        if(direccion!=null)
+        {
+            leerArchivo(direccion);
+            direccion=null;
+        }
+
     }
+    public static void leerArchivo(String s)
+    {
+        int text=0;
+        int num_vertices;
+        try
+        {
+            Scanner sc= new Scanner(new FileReader(s));
+            num_vertices=sc.nextInt();
+            sc.nextLine();
+            Grafos.grafo.clear();
+            Grafos.grafo.crearVertices(num_vertices);
+            ++text;
+
+            while(sc.hasNextLine())
+            {
+                Scanner sc1= new Scanner(sc.nextLine());
+                sc1.useDelimiter(",");
+
+
+                int etiqueta=sc1.nextInt();
+                int etiqueta2=sc1.nextInt();
+                int peso=sc1.nextInt();
+
+                System.out.println(etiqueta);
+                System.out.println(etiqueta2);
+                System.out.println(peso);
+
+                Grafos.grafo.addLado(etiqueta,etiqueta2,peso);
+                /*Lados lado=new Lados(all_vertices.get(etiqueta2-1),all_vertices.get(etiqueta-1),peso);
+                all_lados.add(lado);
+                all_vertices.get(etiqueta-1).addLado(lado);
+                all_vertices.get(etiqueta2-1).addLado(lado);
+*/
+
+
+                sc1.close();
+                System.out.println("linea: "+(++text));
+            }
+
+            sc.close();
+
+        }
+        catch(FileNotFoundException FNF)
+        {
+            System.out.println(FNF);
+            return;
+        }
+        catch(IOException IO)
+        {
+            System.out.println(IO);
+            return;
+        }
+    }
+
 }

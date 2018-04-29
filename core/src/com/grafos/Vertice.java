@@ -11,7 +11,8 @@ public class Vertice extends Actor
 {
     private ShapeRenderer shape;
     private BitmapFont font;
-    private int numero;
+    private int etiqueta;
+    private boolean marcado;
     public Vertice(float x,float y,int numero)
     {
         shape=new ShapeRenderer();
@@ -19,19 +20,13 @@ public class Vertice extends Actor
         this.setWidth(50);
         this.setX(x);
         this.setY(y);
-        this.numero=numero;
+        this.etiqueta=numero;
+        marcado=false;
         font = new BitmapFont();
         font.setColor(Config.color(133, 193, 233,1));
         shape.setColor(Config.color(52, 152, 219,1));
+        setDrag();
 
-        addListener(new DragListener()
-        {
-            @Override
-            public void touchDragged(InputEvent event, float x, float y, int pointer)
-            {
-                moveBy(x - getWidth()/2, y - getHeight()/2);
-            }
-        });
 
     }
     @Override
@@ -43,7 +38,7 @@ public class Vertice extends Actor
         shape.circle(this.getX()+25, this.getY()+25, 25);
         shape.end();
         batch.begin();
-        font.draw(batch,Integer.toString(numero),this.getX(),this.getY()+getHeight()/2+font.getXHeight()/2,getWidth(),1,true);
+        font.draw(batch,Integer.toString(etiqueta),this.getX(),this.getY()+getHeight()/2+font.getXHeight()/2,getWidth(),1,true);
 
     }
     @Override
@@ -61,6 +56,22 @@ public class Vertice extends Actor
             setY(dy-0.5f);
 
     }
+    public void setDrag()
+    {
+        this.addListener(new DragListener()
+        {
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer)
+            {
+                moveBy(x - getWidth()/2, y - getHeight()/2);
+            }
+        });
+    }
+    public int getEtiqueta() {return this.etiqueta;}
+    public void setEtiqueta(int etiqueta) {this.etiqueta=etiqueta;}
+    public boolean getMarcado() {return this.marcado;}
+    public void setMarcado(boolean boo) {this.marcado=boo;}
+
     public void dispose()
     {
         shape.dispose();

@@ -19,6 +19,7 @@ public class Menu
 
     public void dibujar()
     {
+        SelectorDeArchivo.compruebaArchivo();
         barra.dibujar();
         etiqueta.dibujar();
     }
