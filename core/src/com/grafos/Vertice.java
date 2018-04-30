@@ -13,6 +13,8 @@ public class Vertice extends Actor
     private BitmapFont font;
     private int etiqueta;
     private boolean marcado;
+    private int costo;
+    private Lado referencia;
     public Vertice(float x,float y,int numero)
     {
         shape=new ShapeRenderer();
@@ -21,13 +23,13 @@ public class Vertice extends Actor
         this.setX(x);
         this.setY(y);
         this.etiqueta=numero;
+        this.costo=-1;
         marcado=false;
+        this.referencia=null;
         font = new BitmapFont();
         font.setColor(Config.color(133, 193, 233,1));
         shape.setColor(Config.color(52, 152, 219,1));
         setDrag();
-
-
     }
     @Override
     public void draw (Batch batch, float parentAlpha)
@@ -56,7 +58,7 @@ public class Vertice extends Actor
             setY(dy-0.5f);
 
     }
-    public void setDrag()
+    private void setDrag()
     {
         this.addListener(new DragListener()
         {
@@ -75,5 +77,21 @@ public class Vertice extends Actor
     public void dispose()
     {
         shape.dispose();
+    }
+    public int getCosto()
+    {
+        return costo;
+    }
+    public void setCosto(int costo)
+    {
+        this.costo=costo;
+    }
+    public void asociarReferencia(Lado m)
+    {
+        referencia=m;
+    }
+    public Lado getReferencia()
+    {
+        return referencia;
     }
 }

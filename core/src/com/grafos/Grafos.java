@@ -15,7 +15,7 @@ public class Grafos extends ApplicationAdapter {
 		Gdx.gl.glLineWidth(3);
 		Gdx.input.setInputProcessor(Config.STAGE);
 		menu=new Menu();
-		grafo.grafoRandom(7);
+		grafo.grafoRandom(7,Config.aleatorio(21)+1);
 	}
 	@Override
 	public void render ()

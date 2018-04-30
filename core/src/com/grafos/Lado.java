@@ -21,7 +21,7 @@ public class Lado
         batch=new SpriteBatch();
         font = new BitmapFont();
         font.setColor(133/255f, 193/255f, 233/255f,1);
-        shape.setColor(44/255f, 62/255f, 80/255f,1);
+        shape.setColor(Config.AZUL);
     }
     public Lado()
     {
@@ -57,8 +57,8 @@ public class Lado
     public void setVerticeSalida(Vertice vert) {this.salida=vert;}
     public int getPeso() {return this.peso;}
     public void setPeso(int peso) {this.peso=peso;}
-    public void setColor()
+    public void setColor(Color a)
     {
-        shape.setColor(Color.PINK);
+        shape.setColor(a);
     }
 }

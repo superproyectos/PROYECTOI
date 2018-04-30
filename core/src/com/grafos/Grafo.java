@@ -1,12 +1,8 @@
 package com.grafos;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
-import com.grafos.Config;
-import com.grafos.Lado;
-import com.grafos.Vertice;
 
-import java.util.Random;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.Array;
 
 public class Grafo
 {
@@ -22,7 +18,6 @@ public class Grafo
     }
     public void crearVertices(int n)
     {
-        System.out.println(n);
         float x=Config.W/2,y=Config.H/2,r=150,ang;
         ang=2*3.141592f/n;
         for(int i=1;i<=n;i++)
@@ -36,7 +31,7 @@ public class Grafo
     {
         vertices.add(A);
     }
-    public boolean seRepiteLado(Vertice A,Vertice B)
+    private boolean seRepiteLado(Vertice A,Vertice B)
     {
         for(Lado t:lados)
         {
@@ -64,17 +59,14 @@ public class Grafo
         for (Lado a:lados)
             a.dibujaLado();
     }
-    public void grafoRandom(int ver)
+    public void grafoRandom(int ver,int lad)
     {
         crearVertices(ver);
-        for(int i=0;i<10;i++)
+        for(int i=0;i<lad;i++)
         {
-
-            Random aleatorio = new Random(System.currentTimeMillis());
-            int a1 = aleatorio.nextInt(vertices.size), a2 = aleatorio.nextInt(vertices.size);
-            if(a1!=a2&&!addLado(vertices.get(a1),vertices.get(a2),aleatorio.nextInt(100)+1)||a1==a2)
+            int a1 = Config.aleatorio(vertices.size), a2 = Config.aleatorio(vertices.size);
+            if(a1!=a2&&!addLado(vertices.get(a1),vertices.get(a2),Config.aleatorio(100)+1)||a1==a2)
                 i--;
-            aleatorio.setSeed(System.currentTimeMillis());
         }
     }
     public void clear()
@@ -134,79 +126,84 @@ public class Grafo
 
     }
 
-
-    public void desmarcar()
+    private void decolorar()
+    {
+        for (Lado a:lados)
+            a.setColor(Config.AZUL);
+    }
+    private void desmarcar()
     {
         for(Vertice a: vertices)
+        {
             a.setMarcado(false);
+            a.asociarReferencia(null);
+            a.setCosto(-1);
+        }
     }
 
+    public Grafo Prim()
+    {
 
-
-    public Grafo Prim() {
-
-        Grafo arbol_min_cobertor= new Grafo();
-        Lado lado_costo_min= new Lado();
-
-        arbol_min_cobertor.vertices.add(vertices.get(0));
-        vertices.get(0).setMarcado(true);
-
-
-        while  (vertices.size != arbol_min_cobertor.vertices.size)
-        {
-
-            lado_costo_min= ladoCostoMin(arbol_min_cobertor.vertices);
-
-            if(lado_costo_min != null)
+            if(vertices!=null&&vertices.size>0)
             {
-                arbol_min_cobertor.lados.add(lado_costo_min);
+                Grafo arbol_min_cobertor = new Grafo();
+                Lado lado_costo_min = new Lado();
 
-                if(!arbol_min_cobertor.vertices.contains(lado_costo_min.getVerticeEntrada(),false)   )
+                arbol_min_cobertor.vertices.add(vertices.get(0));
+                desmarcar();
+                vertices.get(0).setMarcado(true);
+
+                while (vertices.size != arbol_min_cobertor.vertices.size)
                 {
-                    arbol_min_cobertor.vertices.add(lado_costo_min.getVerticeEntrada());
-                    vertices.get(vertices.indexOf(lado_costo_min.getVerticeEntrada(),false)).setMarcado(true);
-
-                }
-                else
-                {
-                    arbol_min_cobertor.vertices.add(lado_costo_min.getVerticeSalida());
-                    vertices.get(vertices.indexOf(lado_costo_min.getVerticeSalida(),false)).setMarcado(true);
-                }
-
-            }
-            else
-            {
-
-                for (Vertice a: vertices) {
-
-                    if(!a.getMarcado())
+                    lado_costo_min = ladoCostoMin(arbol_min_cobertor.vertices);
+                    if (lado_costo_min != null)
                     {
-                        a.setMarcado(true);
-                        arbol_min_cobertor.vertices.add(a);
-                        break;
+                        arbol_min_cobertor.lados.add(lado_costo_min);
+                        if (!arbol_min_cobertor.vertices.contains(lado_costo_min.getVerticeEntrada(), false))
+                        {
+                            arbol_min_cobertor.vertices.add(lado_costo_min.getVerticeEntrada());
+                            vertices.get(vertices.indexOf(lado_costo_min.getVerticeEntrada(), false)).setMarcado(true);
+                        }
+                        else
+                        {
+                            arbol_min_cobertor.vertices.add(lado_costo_min.getVerticeSalida());
+                            vertices.get(vertices.indexOf(lado_costo_min.getVerticeSalida(), false)).setMarcado(true);
+                        }
 
                     }
+                    else
+                    {
+
+                        for (Vertice a : vertices)
+                            if (!a.getMarcado())
+                            {
+                                a.setMarcado(true);
+                                arbol_min_cobertor.vertices.add(a);
+                                break;
+
+                            }
+                    }
+
                 }
 
+                //arbol_min_cobertor=crearGrafo(arbol_min_cobertor);
+                coloreaCamino(arbol_min_cobertor);
+                desmarcar();
+                return arbol_min_cobertor;
             }
-
-        }
-
-        //arbol_min_cobertor=crearGrafo(arbol_min_cobertor);
-        coloreaCamino(arbol_min_cobertor);
-        desmarcar();
-        return arbol_min_cobertor;
-
+        return this;
     }
-    public void coloreaCamino(Grafo grafo)
+
+    private void coloreaCamino(Grafo grafo)
     {
         for(Lado a:grafo.lados)
         {
             int i=lados.indexOf(a,false);
             if(i>=0)
-            lados.get(lados.indexOf(a,false)).setColor();
+            lados.get(lados.indexOf(a,false)).setColor(Color.PINK);
         }
     }
+
     public Grafo crearGrafo(Grafo grafo)
     {
         Grafo arbol=new Grafo();
@@ -221,8 +218,70 @@ public class Grafo
         return arbol;
     }
 
+    private boolean valida(int a)
+    {
+        return (a-1>=0&&a<=vertices.size);
+    }
+    private Vertice existenVerticesAbiertos()
+    {
+        Vertice menor=null;
+        for(Vertice a:vertices)
+            if(!a.getMarcado()&&a.getCosto()!=-1)
+                menor=(menor==null||menor.getCosto()>a.getCosto()?a:menor);
+        return menor;
+    }
+    private Array<Lado> sucesores(Vertice v)
+    {
+        Array<Lado>hijo=new Array<Lado>();
+        for(Lado a:lados)
+            if(a.getVerticeEntrada()==v||a.getVerticeSalida()==v)
+                hijo.add(a);
+        return hijo;
+    }
+    public void Dijktra(int primero,int segundo)
+    {
+        if(vertices!=null&&vertices.size>0&&valida(primero)&&valida(segundo))
+        {
+            desmarcar();
+            Vertice w=vertices.get(primero-1);
+            w.setCosto(0);
+            Vertice n;
+            while((n=existenVerticesAbiertos())!=null)
+            {
+                n.setMarcado(true);
+                Array<Lado> sucesor=sucesores(n);
+                while (sucesor.size>0)
+                {
+                    Lado mn=sucesor.get(0);
+                    Vertice m=mn.getVerticeEntrada()==n?mn.getVerticeSalida():mn.getVerticeEntrada();
+                    if(n.getCosto()+mn.getPeso()<=m.getCosto()||m.getCosto()==-1)
+                    {
+                        m.setCosto(n.getCosto()+mn.getPeso());
+                        m.asociarReferencia(mn);
+                    }
+                    sucesor.removeIndex(0);
+                }
+            }
+            decolorar();
+            recorreReferencias(vertices.get(segundo-1));
+        }
 
+    }
 
+    private void recorreReferencias(Vertice m)
+    {
+        if(m.getReferencia()!=null)
+        {
+
+            Lado a=m.getReferencia();
+            m.asociarReferencia(null);
+            a.setColor(Color.PINK);
+            if(a.getVerticeEntrada()!=m)
+                recorreReferencias(a.getVerticeEntrada());
+            else
+                recorreReferencias(a.getVerticeSalida());
+        }
+    }
 
 
 }
