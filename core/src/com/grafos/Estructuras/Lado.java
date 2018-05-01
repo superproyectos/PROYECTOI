@@ -1,9 +1,11 @@
-package com.grafos;
+package com.grafos.Estructuras;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.grafos.Config;
+import com.grafos.Estructuras.Vertice;
 
 public class Lado
 {

@@ -3,10 +3,12 @@ package com.grafos;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.grafos.Estructuras.Grafo;
 import com.grafos.menu.Menu;
 
 
-public class Grafos extends ApplicationAdapter {
+public class Grafos extends ApplicationAdapter
+{
 	public static Grafo grafo=new Grafo();
 	private Menu menu;
 	@Override
@@ -24,7 +26,7 @@ public class Grafos extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		menu.dibujar();
 		Config.STAGE.act(Gdx.graphics.getDeltaTime());
-		grafo.dibujaLados();
+		grafo.dibujar();
 		Config.STAGE.draw();
 
 	}

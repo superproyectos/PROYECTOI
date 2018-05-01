@@ -1,12 +1,14 @@
 package com.grafos.menu;
 
-import com.grafos.Grafo;
+import com.grafos.Estructuras.Grafo;
 import com.grafos.Grafos;
+import com.sun.deploy.uitoolkit.impl.fx.ui.ErrorPane;
 
 import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SelectorDeArchivo
@@ -78,30 +80,34 @@ public class SelectorDeArchivo
                 System.out.println(peso);
 
                 Grafos.grafo.addLado(etiqueta,etiqueta2,peso);
-                /*Lados lado=new Lados(all_vertices.get(etiqueta2-1),all_vertices.get(etiqueta-1),peso);
-                all_lados.add(lado);
-                all_vertices.get(etiqueta-1).addLado(lado);
-                all_vertices.get(etiqueta2-1).addLado(lado);
+            /*Lados lado=new Lados(all_vertices.get(etiqueta2-1),all_vertices.get(etiqueta-1),peso);
+            all_lados.add(lado);
+            all_vertices.get(etiqueta-1).addLado(lado);
+            all_vertices.get(etiqueta2-1).addLado(lado);
 */
-
 
                 sc1.close();
                 System.out.println("linea: "+(++text));
             }
 
             sc.close();
+        }
+        catch(final Exception FNF)
+        {
+
+            new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    JOptionPane.showMessageDialog(new JPanel(), "No entiendo lo que dice el archivo :(",
+                            "Vaya, ha ocurrido un error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }).start();
 
         }
-        catch(FileNotFoundException FNF)
-        {
-            System.out.println(FNF);
-            return;
-        }
-        catch(IOException IO)
-        {
-            System.out.println(IO);
-            return;
-        }
+
     }
 
 }
