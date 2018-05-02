@@ -4,8 +4,25 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
 import com.grafos.Config;
 
+
+/**
+ * <--------------------CLASE NODOS-------------------->
+ *
+ *     NODOS ES UN CONJUNTO DE VÉRTICES
+ *     V=(v)
+ *      1. Crear vértices.
+ *      2. Desmarcar vértices.
+ *      3. Validar etiqueta.
+ *      4. Validar vértice.
+ *      5. Menor vértice abierto
+ *      6. Recorrer referencias.
+ *      */
+
 public class Nodos extends Array<Vertice>
 {
+    /*<--------------------1. Crear vértices-------------------->
+    * Crea vértices en un círculo y los añade al conjunto*/
+
     public void crearVertices(int n)
     {
         float x=Config.W/2,y=Config.H/2,r=150,ang;
@@ -17,6 +34,9 @@ public class Nodos extends Array<Vertice>
             Config.STAGE.addActor(c);
         }
     }
+
+    /*<--------------------2. Desmarcar todos los vértices-------------------->*/
+
     public void desmarcar()
     {
         for(Vertice a: this)
@@ -26,14 +46,24 @@ public class Nodos extends Array<Vertice>
             a.setCosto(-1);
         }
     }
-    public boolean valida(int a)
+
+    /*<--------------------3. Validar etiqueta-------------------->
+    * Devuelve si la etiqueta está entre los valores permitidos*/
+
+    private boolean valida(int a)
     {
         return (a-1>=0&&a<=this.size);
     }
+
+    /*<--------------------4. Validar vértice-------------------->
+     * Devuelve si los vértices son válidos*/
+
     public boolean esVerticeValido(int primero,int segundo)
     {
         return this.size>0&&valida(primero)&&valida(segundo);
     }
+
+    /*<--------------------5. Tomar menor vértice abierto-------------------->*/
 
     public Vertice getMenorVerticeAbierto()
     {
@@ -43,6 +73,10 @@ public class Nodos extends Array<Vertice>
                 menor=(menor==null||menor.getCosto()>a.getCosto()?a:menor);
         return menor;
     }
+
+    /*<--------------------6. Recorrer referencias-------------------->
+    * Recorre desde el final al principio coloreando el camino*/
+
     public int recorreReferencias(Vertice m)
     {
         if(m.getReferencia()!=null)

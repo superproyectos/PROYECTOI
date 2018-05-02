@@ -4,12 +4,43 @@ package com.grafos.Estructuras;
 import com.badlogic.gdx.graphics.Color;
 import com.grafos.*;
 
+/**
+ * <--------------------CLASE GRAFO-------------------->
+ *
+ *     ¡ATENCIÓN! Grafo tiene una instancia estática.
+ *
+ *     GRAFO ES UN CONJUNTO DE VÉRTICES Y DE ARISTAS
+ *     G=(V,E)
+ *
+ *     0. ATRIBUTOS.
+ *     0.0 CONSTRUCTOR
+ *     REPRESENTACIÓN GRÁFICA DE NODOS.
+ *      1. Dibujador.
+ *      2. Actuador.
+ *      3. Oyente Drag.
+ *     GETTERS
+ *      4. Número de etiqueta.
+ *      5. Nodo Marcado.
+ *      6. Costo.
+ *      7. Referencia.
+ *     SETTERS
+ *      8. Número de etiqueta.
+ *      9. Nodo Marcado.
+ *      10. Costo.
+ *      11. Referencia.
+ *     DESTRUCTORES
+ *      12. Destruir.
+ *      */
+
 public class Grafo
 {
-    //G=(V,E)
+    //Atributos generales
     private Nodos vertices;
     private Aristas lados;
     private int peso;
+
+    /*<--------------------Constructor-------------------->*/
+
     public Grafo()
     {
         vertices=new Nodos();
