@@ -14,7 +14,12 @@ public class DesktopLauncher
 		config.width=600;
 		config.height=600;
 		config.resizable=false;
-		config.addIcon("LAUN.png",Files.FileType.Internal);
+		try {
+			config.addIcon("LAUN.png", Files.FileType.Internal);
+		}catch (Exception e)
+		{
+			//No puede cargar el icono
+		}
 		new LwjglApplication(new Grafos(), config);
 	}
 }

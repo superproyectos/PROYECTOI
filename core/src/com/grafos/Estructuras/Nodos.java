@@ -16,6 +16,7 @@ import com.grafos.Config;
  *      4. Validar vértice.
  *      5. Menor vértice abierto
  *      6. Recorrer referencias.
+ *      7. Ordenar vértices
  *      */
 
 public class Nodos extends Array<Vertice>
@@ -91,5 +92,21 @@ public class Nodos extends Array<Vertice>
                 return recorreReferencias(a.getVerticeSalida())+a.getPeso();
         }
         return 0;
+    }
+
+    /*<--------------------7. Ordenar vértices-------------------->
+     * Ordena vértices por número de etiqueta*/
+
+    public Nodos ordenar()
+    {
+        Nodos aux=new Nodos();
+        for(int i=1;i<this.size+1;i++)
+            for(Vertice a:this)
+                if(a.getEtiqueta()==i)
+                {
+                    aux.add(a);
+                    break;
+                }
+        return aux;
     }
 }

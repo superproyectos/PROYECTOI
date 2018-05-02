@@ -14,7 +14,7 @@ import com.grafos.*;
  *
  *     0. ATRIBUTOS.
  *     0.0 CONSTRUCTOR
- *     REPRESENTACIÓN GRÁFICA DE NODOS.
+ *     CREAR GRAFO.
  *      1. Dibujador.
  *      2. Actuador.
  *      3. Oyente Drag.
@@ -43,25 +43,15 @@ public class Grafo
 
     public Grafo()
     {
+        //G=(V,E)
         vertices=new Nodos();
         lados=new Aristas();
+        //Costo de trayecto
         peso=0;
     }
 
-    public void crearVertices(int n)
-    {
-        vertices.crearVertices(n);
-    }
-
-    public void addLado(int a,int b,int peso)
-    {
-        lados.addLado(vertices.get(a-1),vertices.get(b-1),peso);
-    }
-
-    public void dibujar()
-    {
-        lados.dibujaLados();
-    }
+    /*<--------------------1. Generar grafo aleatorio-------------------->
+    * Recibe el número de vértices y de lados a generar aleatoriamente*/
 
     public void grafoRandom(int ver,int lad)
     {
@@ -74,6 +64,29 @@ public class Grafo
         }
     }
 
+    /*<--------------------2. Crear un vértice-------------------->*/
+
+    public void crearVertices(int n)
+    {
+        vertices.crearVertices(n);
+    }
+
+    /*<--------------------3. Añadir un lado-------------------->*/
+
+    public void addLado(int a,int b,int peso)
+    {
+        lados.addLado(vertices.get(a-1),vertices.get(b-1),peso);
+    }
+
+    /*<--------------------4. Dibujar lados-------------------->*/
+
+    public void dibujar()
+    {
+        lados.dibujaLados();
+    }
+
+    /*<--------------------5. Limpiar grafo-------------------->*/
+
     public void clear()
     {
         for (Vertice a:vertices)
@@ -82,59 +95,60 @@ public class Grafo
         lados.clear();
     }
 
+    /*<--------------------6. Algortimo de Prim-------------------->*/
+
     public Grafo Prim()
     {
-
-            if(vertices!=null&&vertices.size>0)
-            {
-                Grafo arbol_min_cobertor = new Grafo();
-                Lado lado_costo_min;
-
-                arbol_min_cobertor.vertices.add(vertices.get(0));
-                vertices.desmarcar();
-                vertices.get(0).setMarcado(true);
-
-                while (vertices.size != arbol_min_cobertor.vertices.size)
-                {
-                    lado_costo_min = lados.ladoCostoMin(arbol_min_cobertor.vertices);
-                    if (lado_costo_min != null)
-                    {
-                        arbol_min_cobertor.lados.add(lado_costo_min);
-                        if (!arbol_min_cobertor.vertices.contains(lado_costo_min.getVerticeEntrada(), false))
-                        {
-                            arbol_min_cobertor.vertices.add(lado_costo_min.getVerticeEntrada());
-                            vertices.get(vertices.indexOf(lado_costo_min.getVerticeEntrada(), false)).setMarcado(true);
-                        }
-                        else
-                        {
-                            arbol_min_cobertor.vertices.add(lado_costo_min.getVerticeSalida());
-                            vertices.get(vertices.indexOf(lado_costo_min.getVerticeSalida(), false)).setMarcado(true);
-                        }
-
+        //Valida si hay vértices
+        if(vertices!=null&&vertices.size>0)
+        {
+            Grafo arbol_min_cobertor = new Grafo();
+            Lado lado_costo_min;
+            arbol_min_cobertor.vertices.add(vertices.get(0));
+            //Quitar rastros de culaquier otro algoritmo
+            vertices.desmarcar();
+            //Tomar un vértice y marcarlo
+            vertices.get(0).setMarcado(true);
+            while (arbol_min_cobertor.vertices.size!= vertices.size)
+            {//Mientras B sea distinto de V
+                //Hallar el lado con menor costo
+                lado_costo_min = lados.ladoCostoMin(arbol_min_cobertor.vertices);
+                if (lado_costo_min != null)
+                {//Si existe un lado con costo mínimo
+                    //Añadir lado al árbol mínimo cobertor
+                    arbol_min_cobertor.lados.add(lado_costo_min);
+                    if (!arbol_min_cobertor.vertices.contains(lado_costo_min.getVerticeEntrada(), false))
+                    {//Si el árbo
+                        arbol_min_cobertor.vertices.add(lado_costo_min.getVerticeEntrada());
+                        vertices.get(vertices.indexOf(lado_costo_min.getVerticeEntrada(), false)).setMarcado(true);
                     }
                     else
                     {
-
-                        for (Vertice a : vertices)
-                            if (!a.getMarcado())
-                            {
-                                a.setMarcado(true);
-                                arbol_min_cobertor.vertices.add(a);
-                                break;
-
-                            }
+                        arbol_min_cobertor.vertices.add(lado_costo_min.getVerticeSalida());
+                        vertices.get(vertices.indexOf(lado_costo_min.getVerticeSalida(), false)).setMarcado(true);
                     }
-
                 }
-                arbol_min_cobertor.peso=lados.coloreaCamino(arbol_min_cobertor,Color.PINK);
-                vertices.desmarcar();
-                return arbol_min_cobertor;
+                else {
+                    for (Vertice a : vertices)
+                        if (!a.getMarcado())
+                        {
+                            a.setMarcado(true);
+                            arbol_min_cobertor.vertices.add(a);
+                            break; }
+                }
             }
+            arbol_min_cobertor.peso=lados.coloreaCamino(arbol_min_cobertor,Color.PINK);
+            arbol_min_cobertor.vertices=arbol_min_cobertor.vertices.ordenar();
+            vertices.desmarcar();
+            return arbol_min_cobertor;
+        }
         return this;
     }
 
     public void Dijktra(int primero,int segundo)
     {
+        /*primero=Math.abs(primero);
+        segundo=Math.abs(segundo);*/
         if(vertices!=null&&vertices.esVerticeValido(primero,segundo))
         {
             vertices.desmarcar();
